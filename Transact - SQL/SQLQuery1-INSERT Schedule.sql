@@ -27,20 +27,44 @@ PRINT N'===============================================================';
 WHILE @lesson_number < @number_of_lessons
 BEGIN
 	SET @time = @start_time;
-	PRINT FORMATMESSAGE(N'%i, %s %s %s', @lesson_number, CAST(@date AS NVARCHAR(12)), DATENAME(WEEKDAY, @date), CAST(@time AS NVARCHAR(12)));
+	PRINT FORMATMESSAGE(
+		N'%i, %s %s %s', 
+		@lesson_number, 
+		CAST(@date AS NVARCHAR(12)), 
+		DATENAME(WEEKDAY, @date), 
+		CAST(@time AS NVARCHAR(12))
+	);
 	--IF NOT EXISTS (SELECT lesson_id FROM Schedule WHERE [date]=@date AND [time]=@time)
 	--	INSERT Schedule([group],discipline,teacher,[date],[time],spent)
 	--	VALUES		   (@group, @discipline, @teacher, @date, @time, IIF(@date<GETDATE(),1,0));
 	--SET @time = DATEADD(MINUTE, 95, @time);
 	--SET @lesson_number += 1;
-	EXEC sp_InsertLesson @group, @discipline, @teacher, @date, @time OUTPUT, @lesson_number OUTPUT;
+	EXEC sp_InsertLesson 
+		@group, 
+		@discipline, 
+		@teacher, 
+		@date, 
+		@time OUTPUT, 
+		@lesson_number OUTPUT;
 
-	PRINT FORMATMESSAGE(N'%i, %s %s %s', @lesson_number, CAST(@date AS NVARCHAR(12)), DATENAME(WEEKDAY, @date), CAST(@time AS NVARCHAR(12)));
+	PRINT FORMATMESSAGE(
+		N'%i, %s %s %s', 
+		@lesson_number, 
+		CAST(@date AS NVARCHAR(12)), 
+		DATENAME(WEEKDAY, @date), 
+		CAST(@time AS NVARCHAR(12))
+	);
 	--IF NOT EXISTS (SELECT lesson_id FROM Schedule WHERE [date]=@date AND [time]=@time)
 	--	INSERT Schedule([group],discipline,teacher,[date],[time],spent)
 	--	VALUES		   (@group, @discipline, @teacher, @date, @time, IIF(@date<GETDATE(),1,0));
 	--SET @lesson_number += 1;
-	EXEC sp_InsertLesson @group, @discipline, @teacher, @date, @time OUTPUT, @lesson_number OUTPUT;
+	EXEC sp_InsertLesson 
+		@group, 
+		@discipline, 
+		@teacher, 
+		@date, 
+		@time OUTPUT, 
+		@lesson_number OUTPUT;
 
 	SET @date = DATEADD(DAY, IIF(DATEPART(WEEKDAY, @date)=6, 3, 2),@date);
 	--							 DATEPART(WEEKDAY, @date) == 6 ? 3 : 2
