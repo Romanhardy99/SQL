@@ -35,7 +35,8 @@ BEGIN
 			PRINT FORMATMESSAGE(N'%i, %s %s %s', @lesson_number, CAST(@date AS NVARCHAR(12)), DATENAME(WEEKDAY, @date), CAST(@time AS NVARCHAR(12)));
 			EXEC sp_InsertLesson @group, @discipline, @teacher, @date, @time OUTPUT, @lesson_number OUTPUT;
 		
-			SET @date = DATEADD(DAY, IIF(DATEPART(WEEKDAY, @date)=6, 3, 2),@date);
+			SET @date = dbo.GetNextLearningDate(@group_name, @date);
+			--SET @date = DATEADD(DAY, IIF(DATEPART(WEEKDAY, @date)=6, 3, 2),@date);
 			--							 DATEPART(WEEKDAY, @date) == 6 ? 3 : 2
 		END
 END
